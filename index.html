@@ -47,6 +47,10 @@
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #ff5722; border-radius: 10px; }
         
+        /* Hide scrollbar in lineup section */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
         /* Image Carousel */
         .carousel-container {
             position: relative;
@@ -89,14 +93,192 @@
         .btn-shine:hover::after {
             left: 120%;
         }
+        
+        /* Custom Video Player */
+        .custom-video-container {
+            position: relative;
+            cursor: pointer;
+        }
+        .custom-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 87, 34, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-play-button:hover {
+            background: rgba(255, 87, 34, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 87, 34, 0.5);
+        }
+        .custom-play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 15px 0 15px 25px;
+            border-color: transparent transparent transparent white;
+            margin-left: 5px;
+        }
+        .custom-video-container.playing .custom-play-button {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px 15px 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+        }
+        .custom-video-container:hover .video-controls {
+            opacity: 1;
+        }
+        .custom-video-container.playing:hover .video-controls {
+            opacity: 1;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .progress-bar:hover {
+            height: 7px;
+        }
+        .progress-filled {
+            height: 100%;
+            background: #ff5722;
+            border-radius: 10px;
+            width: 0;
+            position: relative;
+        }
+        .progress-filled::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: #ff5722;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .progress-bar:hover .progress-filled::after {
+            opacity: 1;
+        }
+        
+        /* Control Buttons */
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 20px;
+        }
+        .control-btn:hover {
+            color: #ff5722;
+            transform: scale(1.1);
+        }
+        
+        /* Volume Control */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .volume-slider {
+            width: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: width 0.3s ease;
+            overflow: hidden;
+        }
+        .volume-control:hover .volume-slider {
+            width: 70px;
+        }
+        .volume-filled {
+            height: 100%;
+            background: #ff5722;
+            border-radius: 10px;
+            width: 100%;
+        }
+        
+        /* Time Display */
+        .time-display {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 640px) {
+            .custom-play-button {
+                width: 60px;
+                height: 60px;
+            }
+            .custom-play-button::after {
+                border-width: 12px 0 12px 20px;
+                margin-left: 4px;
+            }
+            .video-controls {
+                padding: 15px 10px 10px;
+            }
+            .controls-wrapper {
+                gap: 10px;
+            }
+            .control-btn {
+                font-size: 16px;
+            }
+            .time-display {
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body class="bg-dark text-white selection:bg-accent overflow-x-hidden">
 
     <nav class="fixed w-full z-50 bg-dark/95 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 h-16 sm:h-20 flex justify-between items-center gap-2">
             <div class="flex items-center gap-2">
-                <span class="font-extrabold text-xl sm:text-2xl tracking-tighter italic uppercase">Iphi<span class="text-accent">genia</span></span>
+                <span class="font-extrabold text-base sm:text-2xl tracking-tighter italic uppercase">Iphi<span class="text-accent">genia </span><span class="font-extrabold text-base sm:text-2xl tracking-tighter italic uppercase">11.0</span></span>
             </div>
             <div class="hidden md:flex gap-10 text-sm font-bold uppercase tracking-widest text-gray-400">
                 <a href="#home" class="hover:text-white transition-colors duration-300">Home</a>
@@ -104,7 +286,7 @@
                 <a href="#gallery" class="hover:text-white transition-colors duration-300">Gallery</a>
                 <a href="#rewind" class="hover:text-white transition-colors duration-300">Rewind</a>
             </div>
-            <a href="#events" class="bg-accent text-white px-7 py-2.5 rounded-full font-bold text-sm btn-shine transition-transform hover:scale-105">REGISTER NOW</a>
+            <a href="#events" class="bg-accent text-white px-3 mx-8 py-1.5 md:px-6 md:py-2.5 sm:px-7 sm:py-2.5 rounded-full font-bold text-[10px] md:text-md sm:text-sm btn-shine transition-transform hover:scale-105 whitespace-nowrap flex-shrink-0">REGISTER NOW</a>
         </div>
     </nav>
 
@@ -125,8 +307,8 @@
                         Step into the most awaited 2-day festival of IIE Kalyani. Experience a blend of high-octane tech competitions and soul-stirring cultural performances.
                     </p>
                     <div class="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 sm:gap-5 pt-2 sm:pt-4" data-aos="fade-up" data-aos-delay="600">
-                        <a href="#events" class="bg-white text-dark px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base hover:bg-accent hover:text-white transition-all duration-300 shadow-xl shadow-white/5 w-full sm:w-auto text-center">EXPLORE EVENTS</a>
-                        <a href="#rewind" class="px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl border border-white/10 hover:bg-white/5 transition-all font-bold text-xs sm:text-sm uppercase tracking-widest w-full sm:w-auto text-center">Watch Rewind</a>
+                        <a href="#events" class="bg-white text-dark px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base hover:bg-accent hover:text-white transition-all duration-300 shadow-xl shadow-white/5 w-auto max-w-[70%] mx-auto lg:mx-0 sm:max-w-none text-center">EXPLORE EVENTS</a>
+                        <a href="#rewind" class="px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl border border-white/10 hover:bg-white/5 transition-all font-bold text-xs sm:text-sm uppercase tracking-widest w-auto max-w-[70%] mx-auto lg:mx-0 sm:max-w-none text-center">Watch Rewind</a>
                     </div>
                 </div>
 
@@ -150,22 +332,22 @@
         </div>
     </section>
 
-    <section id="events" class="py-16 sm:py-24 bg-[#080808]">
+    <section id="events" class="py-12 sm:py-24 bg-[#080808]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+            <div class="text-center mb-8 sm:mb-16" data-aos="fade-up">
                 <h2 class="text-4xl sm:text-5xl font-black italic uppercase">The <span class="text-accent">Lineup</span></h2>
                 <p class="text-gray-500 mt-3 sm:mt-4 tracking-widest text-[9px] sm:text-xs uppercase font-bold">Participate & win exciting rewards</p>
             </div>
 
             <!-- Horizontal scroll on mobile, grid on desktop -->
-            <div class="flex lg:grid lg:grid-cols-3 gap-6 sm:gap-8 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 snap-x snap-mandatory">
+            <div class="flex lg:grid lg:grid-cols-3 gap-6 sm:gap-8 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 snap-x snap-mandatory hide-scrollbar">
                 <!-- Event 1: Tech Expo -->
                 <div class="bg-card border border-white/5 p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] group hover:border-accent/40 transition-all duration-500 flex flex-col items-center text-center flex-shrink-0 w-[85vw] sm:w-auto lg:w-full snap-center" data-aos="fade-up">
                     <div class="text-accent mb-4 sm:mb-6 bg-accent/10 w-14 sm:w-16 h-14 sm:h-16 rounded-lg sm:rounded-2xl flex items-center justify-center font-bold text-xl sm:text-2xl">01</div>
                     <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 uppercase">Tech Expo</h3>
                     <p class="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-10 leading-relaxed h-auto sm:h-20">Showcase your innovations and technical prowess in the mega science and tech exhibition.</p>
                     <!-- GOOGLE FORM LINK: Replace href="#" with Google Form URL for Tech Expo -->
-                    <a href="#" class="w-full py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-accent group-hover:text-white transition-all duration-300">Register for Tech</a>
+                    <a href="#" class="w-auto max-w-[80%] mx-auto sm:w-full py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-accent group-hover:text-white transition-all duration-300">Register for Tech</a>
                 </div>
 
                 <!-- Event 2: Cultural Gala -->
@@ -174,7 +356,7 @@
                     <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 uppercase">Cultural Gala</h3>
                     <p class="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-10 leading-relaxed h-auto sm:h-20">From dance battles to singing sensations, let your creative spirit own the stage.</p>
                     <!-- GOOGLE FORM LINK: Replace href="#" with Google Form URL for Cultural Gala -->
-                    <a href="#" class="w-full py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-accent group-hover:text-white transition-all duration-300">Register for Cultural</a>
+                    <a href="#" class="w-auto max-w-[80%] mx-auto sm:w-full py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-accent group-hover:text-white transition-all duration-300">Register for Cultural</a>
                 </div>
 
                 <!-- Event 3: E-Sports -->
@@ -183,35 +365,56 @@
                     <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 uppercase">E-Sports</h3>
                     <p class="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-10 leading-relaxed h-auto sm:h-20">Intense gaming tournaments for the pros. Squad up and dominate the leaderboard.</p>
                     <!-- GOOGLE FORM LINK: Replace href="#" with Google Form URL for E-Sports -->
-                    <a href="#" class="w-full py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-accent group-hover:text-white transition-all duration-300">Register for Gaming</a>
+                    <a href="#" class="w-auto max-w-[80%] mx-auto sm:w-full py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-accent group-hover:text-white transition-all duration-300">Register for Gaming</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="gallery" class="py-20 bg-dark overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16" data-aos="fade-up">
+    <section id="gallery" class="py-8 sm:py-20 bg-dark overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 sm:mb-16" data-aos="fade-up">
             <h2 class="text-4xl sm:text-5xl font-black italic uppercase text-center mb-3">Moments in <span class="text-accent">Motion</span></h2>
             <p class="text-gray-500 text-center tracking-widest text-[9px] sm:text-xs uppercase font-bold">Relive the Energy & Excitement</p>
         </div>
         <div class="flex animate-marquee gap-4 sm:gap-8">
             <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
             <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
-            <img src="https://images.unsplash.com/photo-1514525253344-a8135a43cf67?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
+            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
             <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
             <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
             <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=800" class="w-[280px] h-[200px] sm:w-[350px] sm:h-[250px] lg:w-[450px] lg:h-[300px] object-cover rounded-2xl sm:rounded-3xl grayscale hover:grayscale-0 transition duration-700 flex-shrink-0">
         </div>
     </section>
 
-    <section id="rewind" class="py-20 sm:py-32 relative px-4 sm:px-6">
+    <section id="rewind" class="py-12 sm:py-32 relative px-4 sm:px-6">
         <div class="max-w-5xl mx-auto text-center">
             <h2 class="text-3xl sm:text-4xl lg:text-6xl font-black italic uppercase mb-8 sm:mb-12" data-aos="fade-up">Relive the <span class="text-accent">Vibe</span></h2>
             <div class="rounded-xl sm:rounded-[2.5rem] overflow-hidden border-4 sm:border-8 border-white/5 video-shadow" data-aos="zoom-in">
-                <video controls class="w-full bg-black aspect-video">
-                    <source src="C:\Users\Fury\Downloads\AQMFlw-EovZuTozF-XdgJELSUKS9yL9QeLF2Yt8kZtNXaAbipTiV3721FZL4UMtPFglymHm1OwHWF4mvzDmFfVcZjPoHmPDG3ed4BRKTuwDf7w.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <div class="custom-video-container" id="videoContainer">
+                    <video id="customVideo" class="w-full bg-black aspect-video" poster="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070">
+                        <source src="assets/AQMFlw-EovZuTozF-XdgJELSUKS9yL9QeLF2Yt8kZtNXaAbipTiV3721FZL4UMtPFglymHm1OwHWF4mvzDmFfVcZjPoHmPDG3ed4BRKTuwDf7w.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="custom-play-button" id="playButton"></div>
+                    
+                    <!-- Custom Controls -->
+                    <div class="video-controls" id="videoControls">
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress-filled" id="progressFilled"></div>
+                        </div>
+                        <div class="controls-wrapper">
+                            <button class="control-btn" id="playPauseBtn" title="Play/Pause">▶</button>
+                            <div class="volume-control">
+                                <button class="control-btn" id="volumeBtn" title="Mute/Unmute">🔊</button>
+                                <div class="volume-slider" id="volumeSlider">
+                                    <div class="volume-filled" id="volumeFilled"></div>
+                                </div>
+                            </div>
+                            <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+                            <button class="control-btn" id="fullscreenBtn" title="Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <p class="mt-6 sm:mt-8 text-gray-500 uppercase tracking-widest text-[8px] sm:text-[10px] font-bold">Official Aftermovie - Previous Year</p>
         </div>
@@ -271,6 +474,136 @@
         if (totalSlides > 1) {
             setInterval(nextSlide, 5000);
         }
+
+        // Custom Video Player
+        const videoContainer = document.getElementById('videoContainer');
+        const video = document.getElementById('customVideo');
+        const playButton = document.getElementById('playButton');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFilled = document.getElementById('progressFilled');
+        const volumeBtn = document.getElementById('volumeBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeFilled = document.getElementById('volumeFilled');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const videoControls = document.getElementById('videoControls');
+
+        function togglePlay() {
+            if (video.paused || video.ended) {
+                video.play();
+                videoContainer.classList.add('playing');
+                playPauseBtn.textContent = '⏸';
+            } else {
+                video.pause();
+                videoContainer.classList.remove('playing');
+                playPauseBtn.textContent = '▶';
+            }
+        }
+
+        // Play/Pause
+        videoContainer.addEventListener('click', function(e) {
+            if (!e.target.closest('.video-controls')) {
+                togglePlay();
+            }
+        });
+        playPauseBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePlay();
+        });
+        
+        // Progress Bar
+        video.addEventListener('timeupdate', function() {
+            const percent = (video.currentTime / video.duration) * 100;
+            progressFilled.style.width = percent + '%';
+            updateTimeDisplay();
+        });
+
+        progressBar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const rect = progressBar.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            video.currentTime = pos * video.duration;
+        });
+
+        // Volume Control
+        volumeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            video.muted = !video.muted;
+            updateVolumeIcon();
+        });
+
+        volumeSlider.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const rect = volumeSlider.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            video.volume = pos;
+            volumeFilled.style.width = (pos * 100) + '%';
+            video.muted = false;
+            updateVolumeIcon();
+        });
+
+        video.addEventListener('volumechange', function() {
+            volumeFilled.style.width = (video.volume * 100) + '%';
+            updateVolumeIcon();
+        });
+
+        function updateVolumeIcon() {
+            if (video.muted || video.volume === 0) {
+                volumeBtn.textContent = '🔇';
+            } else if (video.volume < 0.5) {
+                volumeBtn.textContent = '🔉';
+            } else {
+                volumeBtn.textContent = '🔊';
+            }
+        }
+
+        // Time Display
+        function updateTimeDisplay() {
+            const currentMinutes = Math.floor(video.currentTime / 60);
+            const currentSeconds = Math.floor(video.currentTime % 60);
+            const durationMinutes = Math.floor(video.duration / 60);
+            const durationSeconds = Math.floor(video.duration % 60);
+            
+            timeDisplay.textContent = `${currentMinutes}:${currentSeconds.toString().padStart(2, '0')} / ${durationMinutes}:${durationSeconds.toString().padStart(2, '0')}`;
+        }
+
+        video.addEventListener('loadedmetadata', updateTimeDisplay);
+
+        // Fullscreen
+        fullscreenBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!document.fullscreenElement) {
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.webkitRequestFullscreen) {
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.msRequestFullscreen) {
+                    videoContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+        
+        video.addEventListener('ended', function() {
+            videoContainer.classList.remove('playing');
+            playPauseBtn.textContent = '▶';
+        });
+
+        video.addEventListener('pause', function() {
+            if (!video.ended) {
+                videoContainer.classList.remove('playing');
+                playPauseBtn.textContent = '▶';
+            }
+        });
+
+        // Prevent control bar from hiding when hovering over it
+        videoControls.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     </script>
 </body>
 </html>
