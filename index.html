@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +42,22 @@
         }
     </script>
     <style>
+        /* Prevent horizontal scroll on mobile */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        @media (max-width: 768px) {
+            body, section, div {
+                max-width: 100vw;
+            }
+        }
+        
         .video-shadow { box-shadow: 0 0 50px -10px rgba(255, 87, 34, 0.3); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050505; }
@@ -371,7 +387,7 @@
         </div>
     </section>
 
-    <section id="gallery" class="py-8 sm:py-20 bg-dark overflow-hidden">
+    <section id="gallery" class="py-8 sm:py-20 bg-dark overflow-x-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 sm:mb-16" data-aos="fade-up">
             <h2 class="text-4xl sm:text-5xl font-black italic uppercase text-center mb-3">Moments in <span class="text-accent">Motion</span></h2>
             <p class="text-gray-500 text-center tracking-widest text-[9px] sm:text-xs uppercase font-bold">Relive the Energy & Excitement</p>
