@@ -399,7 +399,10 @@
                 <a href="#gallery" class="hover:text-white transition-colors duration-300">Gallery</a>
                 <a href="#rewind" class="hover:text-white transition-colors duration-300">Rewind</a>
             </div>
-            <a href="#events" class="bg-accent text-white px-3 mx-8 py-1.5 md:px-6 md:py-2.5 sm:px-7 sm:py-2.5 rounded-full font-bold text-[10px] md:text-md sm:text-sm btn-shine transition-transform hover:scale-105 whitespace-nowrap flex-shrink-0">REGISTER NOW</a>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <a href="#footer" class="md:hidden bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full font-bold text-[9px] transition-all duration-300 whitespace-nowrap flex-shrink-0">CONTACT US</a>
+                <a href="#events" class="bg-accent text-white px-3 mx-2 py-1.5 md:mx-8 md:px-6 md:py-2.5 sm:px-7 sm:py-2.5 rounded-full font-bold text-[10px] md:text-md sm:text-sm btn-shine transition-transform hover:scale-105 whitespace-nowrap flex-shrink-0">REGISTER NOW</a>
+            </div>
         </div>
     </nav>
 
@@ -651,7 +654,7 @@
         </div>
     </section>
 
-    <footer class="bg-card py-12 sm:py-20 border-t border-white/5">
+    <footer class="bg-card py-12 sm:py-20 border-t border-white/5" id="footer">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
             <div class="lg:col-span-2">
                 <h3 class="text-2xl sm:text-3xl font-black italic uppercase mb-4 sm:mb-6">Iphi<span class="text-accent">genia</span> 11.0</h3>
@@ -659,9 +662,23 @@
             </div>
             <div>
                 <h4 class="text-white font-bold mb-3 sm:mb-6 text-xs uppercase tracking-widest">Connect</h4>
-                <div class="space-y-3 sm:space-y-4 text-xs sm:text-sm text-gray-500">
-                    <p>Kalyani, Nadia, WB</p>
-                    <a href="mailto:iiestudentfestcommittee@gmail.com" class="text-accent block">Email Us</a>
+                <div class="space-y-3 sm:space-y-4 text-xs sm:text-sm">
+                    <div class="flex items-center gap-2 text-gray-500">
+                        <i class="fas fa-map-marker-alt text-accent"></i>
+                        <p>Kalyani, Nadia, WB</p>
+                    </div>
+                    <a href="mailto:iiestudentfestcommittee@gmail.com" class="flex items-center gap-2 text-accent hover:text-white transition-colors duration-300">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email Us</span>
+                    </a>
+                    <a href="tel:+916203486589" class="flex items-center gap-2 text-accent hover:text-white transition-colors duration-300">
+                        <i class="fas fa-phone"></i>
+                        <span>+91 62034 86589</span>
+                    </a>
+                    <a href="tel:+917679920023" class="flex items-center gap-2 text-accent hover:text-white transition-colors duration-300">
+                        <i class="fas fa-phone"></i>
+                        <span>+91 76799 20023</span>
+                    </a>
                 </div>
             </div>
             <div>
